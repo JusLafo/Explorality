@@ -27,7 +27,6 @@ class User extends uniqueFunc(Model) {
     return {
       type: "object",
       required: ["email"],
-
       properties: {
         email: { type: "string", format: "email" },
         cryptedPassword: { type: "string" },
