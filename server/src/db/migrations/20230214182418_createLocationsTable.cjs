@@ -8,9 +8,11 @@
 exports.up = async (knex) => {
   return knex.schema.createTable("locations", (table) => {
     table.bigIncrements("id")
-    table.string("locationName").notNullable()
-    table.string("locationImage").notNullable()
-    table.integer("accessDifficulty").notNullable()
+    table.string("name").notNullable()
+    table.string("coordinates").notNullable()
+    table.string("image").notNullable()
+    table.string("description").notNullable()
+    table.integer("difficulty").notNullable()
     table.timestamp("createdAt").notNullable().defaultTo(knex.fn.now())
     table.timestamp("updatedAt").notNullable().defaultTo(knex.fn.now())
   })
