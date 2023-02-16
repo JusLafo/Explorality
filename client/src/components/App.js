@@ -7,7 +7,9 @@ import "../assets/scss/main.scss";
 import RegistrationForm from "./registration/RegistrationForm";
 import SignInForm from "./authentication/SignInForm";
 import TopBar from "./layout/TopBar";
-import LocationsShowPage from "./LocationsShowPage";
+
+import LocationsListPage from "./LocationsListPage";
+import LocationShowPage from "./LocationShowPage";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -34,7 +36,8 @@ const App = (props) => {
             <h1 className="home-page-name">Explorality</h1>
             <a type="button" className="home-page-button gradient-hover-effect " href="/locations">Explore Locations</a>
           </Route>
-          <Route exact path="/locations" component={LocationsShowPage} />
+          <Route exact path="/locations" component={LocationsListPage} />
+          <Route exact path="/locations/:id" component={LocationShowPage} />
           <Route exact path="/users/new" component={RegistrationForm} />
           <Route exact path="/user-sessions/new" component={SignInForm} />
         </Switch>
