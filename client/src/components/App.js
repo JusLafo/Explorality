@@ -10,6 +10,7 @@ import TopBar from "./layout/TopBar";
 
 import LocationsListPage from "./LocationsListPage";
 import LocationShowPage from "./LocationShowPage";
+import UserShowPage from "./UserShowPage";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -40,6 +41,11 @@ const App = (props) => {
           <Route exact path="/locations/:id" component={LocationShowPage} />
           <Route exact path="/users/new" component={RegistrationForm} />
           <Route exact path="/user-sessions/new" component={SignInForm} />
+          <Route 
+            exact 
+            path="/users/:id" 
+            render= {(props) => <UserShowPage {...props} currentUser={currentUser} />}
+          />
         </Switch>
       </Router>
     </div>

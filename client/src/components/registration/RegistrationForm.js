@@ -4,6 +4,7 @@ import config from "../../config";
 
 const RegistrationForm = () => {
   const [userPayload, setUserPayload] = useState({
+    username: "",
     email: "",
     password: "",
     passwordConfirmation: "",
@@ -94,6 +95,18 @@ const RegistrationForm = () => {
             Email
             <input type="text" name="email" value={userPayload.email} onChange={onInputChange} />
             <FormError error={errors.email} />
+          </label>
+        </div>
+        <div>
+          <label>
+            User Name
+            <input 
+              type="text" 
+              name="username" 
+              value={userPayload.username} 
+              onChange={onInputChange}
+            />
+          <FormError error={errors.password} />
           </label>
         </div>
         <div>
