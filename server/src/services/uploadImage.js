@@ -2,7 +2,7 @@ import AWS from "aws-sdk"
 import multer from "multer"
 import multerS3 from "multer-s3"
 
-import config from "../config"
+import config from "../config.js"
 
 AWS.config.update({
   accessKeyid: config.awsAccess.key,

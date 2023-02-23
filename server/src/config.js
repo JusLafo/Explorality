@@ -12,6 +12,10 @@ const development = {
   web: { host: process.env.HOST || "0.0.0.0", port: process.env.PORT || 3000 }
 }
 
+console.log(process.env.AWS_ACCESS_KEY)
+console.log(process.env.AWS_SECRET_ACCESS_KEY)
+console.log(process.env.S3_BUCKET)
+
 const test = { ...development }
 
 const production = {
