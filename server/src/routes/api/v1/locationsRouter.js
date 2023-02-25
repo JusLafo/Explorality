@@ -7,8 +7,6 @@ const locationsRouter = new express.Router()
 
 locationsRouter.get("/:id", async (req, res) => {
   const { id } = req.params
-
-  console.log("IN THE ROUTER", id)
   try {
     const location = await Location.query().findById(id)
     return res.status(200).json({ location: location })
@@ -24,6 +22,11 @@ locationsRouter.get("/", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ errors: error })
   }
+})
+
+locationsRouter.post("/", async (req, res) => {
+  console.log("HIT")
+  console.log(req.body)
 })
 
 export default locationsRouter

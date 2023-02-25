@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import translateServerErrors from "../services/translateServerErrors.js"
 import LocationTile from "./LocationTile.js";
 import useCollapse from "react-collapsed"
+import { Redirect } from "react-router-dom";
 
 const LocationsListPage = (props) => {
   const [locations, setLocations] = useState([])
@@ -14,6 +15,38 @@ const LocationsListPage = (props) => {
     difficulty: ""
   })
 
+  const [shouldRedirect, setShouldRedirect] = useState(false)
+
+  const { getCollapseProps, getToggleProps, isExpanded, setExpanded } = useCollapse();
+
+  const addNewLocation = async () => {
+    try {
+      const response = await fetch('/api/v1/locations', {
+        method: "POST",
+        headers: new Headers({
+          "Content-Type": "application/json"
+        }),
+        body: JSON.stringify(newLocation)
+      })
+      if (!response.ok) {
+        if (response.status === 422) {
+          const body = await response.json()
+          const newErrors = translateServerErrors(body.errors)
+          return setErrors(newErrors)
+        } else {
+          const errorMessage = `${response.status} (${response.statusText})`
+          const error = new Error(errorMessage)
+          throw error
+        }
+      } else {
+        const body = await response.json()
+        setShouldRedirect(true)
+      }
+    } catch (err) {
+      console.error(`Error in fetch: ${err.message}`)
+    }
+  }
+
   const handleInputChange = (event) => {
     setNewLocation({
       ...newLocation,
@@ -21,7 +54,8 @@ const LocationsListPage = (props) => {
     })
   }
 
-  const getCoordinates = () => {
+  const getCoordinates = (event) => {
+    event.preventDefault()
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(pos) {
         const lat = pos.coords.latitude
@@ -37,38 +71,13 @@ const LocationsListPage = (props) => {
     }
   }
 
-  const Collapsible = () => {
-    const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
-    return (
-      <div className="collapsible">
-        <div className="header" {...getToggleProps()}>
-          {isExpanded ? 'Collapse' : 'Click here to add a location!'}
-        </div>
-        <div {...getCollapseProps()}>
-          <div className="content">
-           <form>
-            <label>Location Name:</label>
-            <input onChange={handleInputChange} />
-            <button type="button" value="button" className="button" onClick={getCoordinates}>Get Coordinates</button>
-            <input id="coordinates-field" />
-            <label>Dropzone for image placeholder</label>
-            <label>Description:</label>
-            <input />
-            <label>Difficulty:</label>
-            <select>
-              <option value="0"></option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-            <input type="submit" value="Add Location" className="button" />
-           </form>
-          </div>
-        </div>
-      </div>
-    );
+  let coordinateDisplay 
+  if (newLocation.latitude && newLocation.longitude){
+    coordinateDisplay = <>
+      <label>Coordinates:</label>
+      <input id="coordinates-field-lat" value={newLocation.latitude} onChange={handleInputChange} name="latitude"/>
+      <input id="coordinates-field-long" value={newLocation.longitude}  onChange={handleInputChange} name="longitude"/>
+    </>
   }
 
   const getLocations = async () => {
@@ -100,10 +109,50 @@ const LocationsListPage = (props) => {
     )
   })
 
+  if (shouldRedirect) {
+    return <Redirect push to="/locations" />
+  }
+
+  const handleSubmit = event => {
+    event.preventDefault()
+    addNewLocation()
+  }
+
   return (
     <div>
       <h1 className="location-list-name">Browse Locations</h1>
-      <Collapsible />
+      <div className="collapsible">
+        <div className="header" {...getToggleProps()}>
+          {isExpanded ? 'Collapse' : 'Click here to add a location!'}
+        </div>
+        <div {...getCollapseProps()}>
+          <div className="content">
+           <form>
+            <label>Location Name:</label>
+            <input onChange={handleInputChange} />
+            <div className="coordinate-button">
+              <p className="button" onClick={getCoordinates}>Get Coordinates</p>
+              {coordinateDisplay}
+            </div>
+            <label>Dropzone for image placeholder</label>
+            <label>Description:</label>
+            <input />
+            <label>Difficulty:</label>
+            <select className="select-width">
+              <option value="0"></option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <div>
+              <input type="submit" value="Add Location" className="button" onClick={handleSubmit} />
+            </div>
+           </form>
+          </div>
+        </div>
+      </div>
       <div className="grid">
         {locationTileComponents}
       </div>
