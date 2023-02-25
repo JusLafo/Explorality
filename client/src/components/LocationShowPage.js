@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const LocationShowPage = (props) => {
-  const [location, setLocation] = useState({})
+import CommentList from "./CommentList.js";
 
+const LocationShowPage = ({ user, match }) => {
+  const [location, setLocation] = useState({
+    comments: []
+  })
+
+  const id = match.params.id
 
   const getLocation = async () => {
-    const id = props.match.params.id
     try {
       const response = await fetch(`/api/v1/locations/${id}`)
       if (!response.ok) {
@@ -27,16 +31,21 @@ const LocationShowPage = (props) => {
 
   return (
     <div>
-      <li>
-        <Link to="/locations" className="top-bar-home-button gradient-hover-effect">Back to locations</Link>
-      </li>
-      <h1 className="show-page-name">{location.name}</h1> 
-      <div className="inline">
-        <img className="show-page-image" src={location.image} />
+      <div>
+        <li>
+          <Link to="/locations" className="top-bar-home-button gradient-hover-effect">Back to locations</Link>
+        </li>
+        <h1 className="show-page-name">{location.name}</h1> 
+        <div className="inline">
+          <img className="show-page-image" src={location.image} />
+        </div>
+        <h5 className="show-page-coordinates">Coordinates: {location.coordinates}</h5>
+        <h5 className="show-page-description">About the location: {location.description}</h5>
+        <h5 className="show-page-difficulty">Difficulty: {location.difficulty}</h5>
       </div>
-      <h5 className="show-page-coordinates">Coordinates: {location.coordinates}</h5>
-      <h5 className="show-page-description">About the location: {location.description}</h5>
-      <h5 className="show-page-difficulty">Difficulty: {location.difficulty}</h5>
+      <div>
+        {/* <CommentList comments={location.comments} user={user} /> */}
+      </div>
     </div>
   )
 }
