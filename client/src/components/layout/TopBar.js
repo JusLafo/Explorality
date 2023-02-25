@@ -28,7 +28,7 @@ const TopBar = ({ user }) => {
   return (
     <div className="top-bar">
       <div className="top-bar-left">
-          <li className="">
+          <li>
             <Link to="/" className="top-bar-home-button gradient-hover-effect">Home</Link>
           </li>
       </div>

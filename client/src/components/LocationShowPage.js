@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const LocationShowPage = (props) => {
   const [location, setLocation] = useState({})
@@ -26,8 +27,16 @@ const LocationShowPage = (props) => {
 
   return (
     <div>
-      <h1>{location.name}</h1>
-      <h5>{location.description}</h5>
+      <li>
+        <Link to="/locations" className="top-bar-home-button gradient-hover-effect">Back to locations</Link>
+      </li>
+      <h1 className="show-page-name">{location.name}</h1> 
+      <div className="inline">
+        <img className="show-page-image" src={location.image} />
+      </div>
+      <h5 className="show-page-coordinates">Coordinates: {location.coordinates}</h5>
+      <h5 className="show-page-description">About the location: {location.description}</h5>
+      <h5 className="show-page-difficulty">Difficulty: {location.difficulty}</h5>
     </div>
   )
 }
