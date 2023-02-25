@@ -4,7 +4,7 @@ import LocationTile from "./LocationTile.js";
 import useCollapse from "react-collapsed"
 import { Redirect } from "react-router-dom";
 
-const LocationsListPage = (props) => {
+const LocationsListPage = ({ user }) => {
   const [locations, setLocations] = useState([])
   const [newLocation, setNewLocation] = useState({
     name: "",
@@ -47,13 +47,7 @@ const LocationsListPage = (props) => {
     }
   }
 
-  const handleInputChange = (event) => {
-    setNewLocation({
-      ...newLocation,
-      [event.currentTarget.name]: event.currentTarget.value
-    })
-  }
-
+  
   const getCoordinates = (event) => {
     event.preventDefault()
     if (navigator.geolocation) {
@@ -70,7 +64,7 @@ const LocationsListPage = (props) => {
       console.log("Geolocation is not supported by this browser.")
     }
   }
-
+  
   let coordinateDisplay 
   if (newLocation.latitude && newLocation.longitude){
     coordinateDisplay = <>
@@ -79,7 +73,7 @@ const LocationsListPage = (props) => {
       <input id="coordinates-field-long" value={newLocation.longitude}  onChange={handleInputChange} name="longitude"/>
     </>
   }
-
+  
   const getLocations = async () => {
     try {
       const response = await fetch('/api/v1/locations')
@@ -94,65 +88,78 @@ const LocationsListPage = (props) => {
       console.error(`Error in fetch: ${err.message}`)
     }
   }
-
+  
   useEffect(() => {
     getLocations()
   }, [])
-
+  
   const locationTileComponents = locations.map(locationObject => {
     return (
       <LocationTile
-        key={locationObject.id}
-        {...locationObject}
+      key={locationObject.id}
+      {...locationObject}
       />
+      
+      )
+    })
+    
+    if (shouldRedirect) {
+      return <Redirect push to="/locations" />
+    }
+    
+    const handleSubmit = event => {
+      event.preventDefault()
+      addNewLocation()
+    }
 
-    )
-  })
-
-  if (shouldRedirect) {
-    return <Redirect push to="/locations" />
-  }
-
-  const handleSubmit = event => {
-    event.preventDefault()
-    addNewLocation()
+    const handleInputChange = (event) => {
+      setNewLocation({
+        ...newLocation,
+        [event.currentTarget.name]: event.currentTarget.value
+      })
+    }
+    
+    let locationFormComponent = ""
+    if (user) {
+      locationFormComponent = 
+      <div className="collapsible">
+      <div className="header" {...getToggleProps()}>
+        {isExpanded ? 'Collapse' : 'Click here to add a location!'}
+      </div>
+      <div {...getCollapseProps()}>
+        <div className="content">
+        <form>
+          <label>Location Name:</label>
+          <input type="text" name="name" onChange={handleInputChange} />
+          <div className="coordinate-button">
+            <p className="button" onClick={getCoordinates}>Get Coordinates</p>
+            {coordinateDisplay}
+          </div>
+          <label>Dropzone for image placeholder</label>
+          <label>Description:</label>
+          <input type="text" name="description" onChange={handleInputChange}/>
+          <label>Difficulty:</label>
+          <select name="difficulty" onChange={handleInputChange} className="select-width" value={newLocation.difficulty}>
+            <option value="0"></option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <div>
+            <input type="submit" value="Add Location" className="button" onClick={handleSubmit} />
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
   }
 
   return (
     <div>
       <h1 className="location-list-name">Browse Locations</h1>
-      <div className="collapsible">
-        <div className="header" {...getToggleProps()}>
-          {isExpanded ? 'Collapse' : 'Click here to add a location!'}
-        </div>
-        <div {...getCollapseProps()}>
-          <div className="content">
-           <form>
-            <label>Location Name:</label>
-            <input onChange={handleInputChange} />
-            <div className="coordinate-button">
-              <p className="button" onClick={getCoordinates}>Get Coordinates</p>
-              {coordinateDisplay}
-            </div>
-            <label>Dropzone for image placeholder</label>
-            <label>Description:</label>
-            <input />
-            <label>Difficulty:</label>
-            <select className="select-width">
-              <option value="0"></option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-            <div>
-              <input type="submit" value="Add Location" className="button" onClick={handleSubmit} />
-            </div>
-           </form>
-          </div>
-        </div>
-      </div>
+      {locationFormComponent}
       <div className="grid">
         {locationTileComponents}
       </div>

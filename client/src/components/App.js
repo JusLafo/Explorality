@@ -37,8 +37,16 @@ const App = (props) => {
             <h1 className="home-page-name">Explorality</h1>
             <a type="button" className="home-page-button gradient-hover-effect " href="/locations">Explore Locations</a>
           </Route>
-          <Route exact path="/locations" component={LocationsListPage} />
-          <Route exact path="/locations/:id" component={LocationShowPage} />
+          <Route 
+            exact 
+            path="/locations" 
+            render={(props) => <LocationsListPage {...props} user={currentUser} />}
+          />
+          <Route 
+            exact 
+            path="/locations/:id" 
+            render= {(props) => <LocationShowPage {...props} user={currentUser} />} 
+          />
           <Route exact path="/users/new" component={RegistrationForm} />
           <Route exact path="/user-sessions/new" component={SignInForm} />
           <Route 
