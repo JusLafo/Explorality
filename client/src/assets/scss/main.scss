@@ -165,7 +165,6 @@ h4 {
   background-color: #1277A0;
   padding: 10px;
   border-radius: 26px;
-  margin-top: 20px;
 }
 
 .collapsible .content {
@@ -181,7 +180,8 @@ h4 {
   font-weight: bold;
   text-align: center;
   margin-bottom: 20px;
-  border-radius: 26px;
+  border-bottom-left-radius: 26px;
+  border-bottom-right-radius: 26px;
 }
 
 .collapsible .header {
@@ -189,18 +189,36 @@ h4 {
   padding: 6px;
   cursor: pointer;
   text-align: center;
-  max-width: 15%;
+  max-width: 30%;
   margin: auto;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   background-image: linear-gradient(45deg, #f3ec78, #af4261);
   background-clip: text;
   font-weight: bold;
   text-align: center;
-  border-radius: 26px;
+  border-top-left-radius: 26px;
+  border-top-right-radius: 26px;
 }
 
 .coordinate-button {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-top: 10px;
+  border-radius: 26px;
+}
+
+.location-submit-button {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-top: 10px;
+  border-radius: 26px;
+}
+
+.locations-dropzone {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin: auto;
+  text-align: center;
+  border: 3px dashed #eeeeee;
+  background-color: transparent;
+  color: black;
   margin-top: 10px;
 }
 
@@ -284,6 +302,7 @@ h4 {
   background-image: linear-gradient(45deg, #f3ec78, #af4261);
   color: #0763B8;
   font-weight: bold;
+  margin-left: 20px;
 }
 
 .show-page-image {
@@ -301,6 +320,7 @@ h4 {
   background-image: linear-gradient(45deg, #f3ec78, #af4261);
   color: #0763B8;
   font-weight: bold;
+  margin-right: 10%;
 }
 
 .show-page-description {
@@ -309,6 +329,7 @@ h4 {
   color: #0763B8;
   font-weight: bold;
   margin-left: 10px;
+  margin-right: 10%;
 }
 
 .show-page-difficulty {
@@ -326,3 +347,57 @@ div.inline {
 .clearBoth { 
   clear:both; 
 }
+
+.sign-in-header {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-image: linear-gradient(45deg, #f3ec78, #af4261);
+  color: #0763B8;
+  font-weight: bold;
+}
+
+.sign-in-email {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #f3ec78;
+  font-weight: bold;
+}
+
+.sign-in-password {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #f3ec78;
+  font-weight: bold;
+}
+
+.sign-in-button {
+  border-radius: 26px;
+}
+
+.register-header {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-image: linear-gradient(45deg, #f3ec78, #af4261);
+  color: #0763B8;
+  font-weight: bold;
+}
+
+.register-email {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #f3ec78;
+  font-weight: bold;
+}
+
+.register-username {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #f3ec78;
+  font-weight: bold;
+}
+
+.register-password {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #f3ec78;
+  font-weight: bold;
+}
+
+.register-button {
+  border-radius: 26px;
+}
+
+

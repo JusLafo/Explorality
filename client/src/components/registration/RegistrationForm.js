@@ -88,18 +88,18 @@ const RegistrationForm = () => {
 
   return (
     <div className="grid-container">
-      <h1>Register</h1>
+      <h1 className="register-header">Register</h1>
       <form onSubmit={onSubmit}>
         <div>
-          <label>
-            Email
+          <label className="register-email">
+            Email:
             <input type="text" name="email" value={userPayload.email} onChange={onInputChange} />
             <FormError error={errors.email} />
           </label>
         </div>
         <div>
-          <label>
-            User Name
+          <label className="register-username">
+            User-Name:
             <input 
               type="text" 
               name="username" 
@@ -110,8 +110,8 @@ const RegistrationForm = () => {
           </label>
         </div>
         <div>
-          <label>
-            Password
+          <label className="register-password">
+            Password:
             <input
               type="password"
               name="password"
@@ -122,8 +122,8 @@ const RegistrationForm = () => {
           </label>
         </div>
         <div>
-          <label>
-            Password Confirmation
+          <label className="register-password">
+            Password Confirmation:
             <input
               type="password"
               name="passwordConfirmation"
@@ -134,7 +134,7 @@ const RegistrationForm = () => {
           </label>
         </div>
         <div>
-          <input type="submit" className="button" value="Register" />
+          <input type="submit" className="button gradient-hover-effect register-button" value="Register" />
         </div>
       </form>
     </div>
