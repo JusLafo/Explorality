@@ -3,6 +3,7 @@ import translateServerErrors from "../services/translateServerErrors.js"
 import LocationTile from "./LocationTile.js";
 import useCollapse from "react-collapsed"
 import { Redirect } from "react-router-dom";
+import Dropzone from "react-dropzone"
 
 const LocationsListPage = ({ user }) => {
   const [locations, setLocations] = useState([])
@@ -40,7 +41,7 @@ const LocationsListPage = ({ user }) => {
         }
       } else {
         const body = await response.json()
-        setShouldRedirect(true)
+        window.location.reload()
       }
     } catch (err) {
       console.error(`Error in fetch: ${err.message}`)
@@ -103,10 +104,6 @@ const LocationsListPage = ({ user }) => {
       )
     })
     
-    if (shouldRedirect) {
-      return <Redirect push to="/locations" />
-    }
-    
     const handleSubmit = event => {
       event.preventDefault()
       addNewLocation()
@@ -118,7 +115,7 @@ const LocationsListPage = ({ user }) => {
         [event.currentTarget.name]: event.currentTarget.value
       })
     }
-    
+  
     let locationFormComponent = ""
     if (user) {
       locationFormComponent = 
@@ -132,10 +129,11 @@ const LocationsListPage = ({ user }) => {
           <label>Location Name:</label>
           <input type="text" name="name" onChange={handleInputChange} />
           <div className="coordinate-button">
-            <p className="button" onClick={getCoordinates}>Get Coordinates</p>
+            <p className="button coordinate-button gradient-hover-effect" onClick={getCoordinates}>Get Coordinates</p>
             {coordinateDisplay}
           </div>
-          <label>Dropzone for image placeholder</label>
+          <label>Image Url</label>
+          <input type="text" name="image" onChange={handleInputChange}/>
           <label>Description:</label>
           <input type="text" name="description" onChange={handleInputChange}/>
           <label>Difficulty:</label>
@@ -148,7 +146,7 @@ const LocationsListPage = ({ user }) => {
             <option value="5">5</option>
           </select>
           <div>
-            <input type="submit" value="Add Location" className="button" onClick={handleSubmit} />
+            <input type="submit" value="Add Location" className="button gradient-hover-effect location-submit-button" onClick={handleSubmit} />
           </div>
         </form>
         </div>
