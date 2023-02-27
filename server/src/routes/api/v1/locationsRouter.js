@@ -24,12 +24,12 @@ locationsRouter.get("/", async (req, res) => {
   }
 })
 
-locationsRouter.post("/", async (req, res) => {
+locationsRouter.post("/", uploadImage.single("image"), async (req, res) => {
   const coordinates = `${req.body.latitude}, ${req.body.longitude}`
   const body = {
     name: req.body.name,
     coordinates: coordinates,
-    image: req.body.image,
+    image: req.file.location,
     description: req.body.description,
     difficulty: req.body.difficulty
   }

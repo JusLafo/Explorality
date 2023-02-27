@@ -11,9 +11,13 @@ const LocationsListPage = ({ user }) => {
     name: "",
     latitude: "",
     longitude: "",
-    image: "",
+    image: {},
     description: "",
     difficulty: ""
+  })
+
+  const [uploadedImage, setUploadedImage] = useState({
+    preview: ""
   })
 
   const [shouldRedirect, setShouldRedirect] = useState(false)
@@ -21,34 +25,37 @@ const LocationsListPage = ({ user }) => {
   const { getCollapseProps, getToggleProps, isExpanded, setExpanded } = useCollapse();
 
   const addNewLocation = async () => {
+    event.preventDefault()
+    const newLocationBody = new FormData()
+    newLocationBody.append("name", newLocation.name)
+    newLocationBody.append("latitude", newLocation.latitude)
+    newLocationBody.append("longitude", newLocation.longitude)
+    newLocationBody.append("image", newLocation.image)
+    newLocationBody.append("description", newLocation.description)
+    newLocationBody.append("difficulty", newLocation.difficulty)
+
     try {
-      const response = await fetch('/api/v1/locations', {
+      const response = await fetch("/api/v1/locations", {
         method: "POST",
-        headers: new Headers({
-          "Content-Type": "application/json"
-        }),
-        body: JSON.stringify(newLocation)
+        headers: {
+          "Accept": "image/jpeg"
+        },
+        body: newLocationBody
       })
       if (!response.ok) {
-        if (response.status === 422) {
-          const body = await response.json()
-          const newErrors = translateServerErrors(body.errors)
-          return setErrors(newErrors)
-        } else {
-          const errorMessage = `${response.status} (${response.statusText})`
-          const error = new Error(errorMessage)
-          throw error
-        }
-      } else {
-        const body = await response.json()
-        window.location.reload()
+        throw new Error(`${response.status} (${response.statusText})`)
       }
-    } catch (err) {
-      console.error(`Error in fetch: ${err.message}`)
+      const body = await response.json()
+      setLocations([
+        ...locations,
+        body.location
+      ])
+      setExpanded(false)
+    } catch (error) {
+      console.error(`Error in addLocation Fetch: ${error.message}`)
     }
   }
 
-  
   const getCoordinates = (event) => {
     event.preventDefault()
     if (navigator.geolocation) {
@@ -115,7 +122,23 @@ const LocationsListPage = ({ user }) => {
         [event.currentTarget.name]: event.currentTarget.value
       })
     }
+
+    const handleImageUpload = (acceptedImage) => {
+      setNewLocation({
+        ...newLocation,
+        image: acceptedImage[0]
+      })
+
+      setUploadedImage({
+        preview: URL.createObjectURL(acceptedImage[0])
+      })
+    }
   
+    let previewComponent = ''
+    if (uploadedImage.preview) {
+      previewComponent = <img src={uploadedImage.preview} />
+    }
+
     let locationFormComponent = ""
     if (user) {
       locationFormComponent = 
@@ -132,8 +155,20 @@ const LocationsListPage = ({ user }) => {
             <p className="button coordinate-button gradient-hover-effect" onClick={getCoordinates}>Get Coordinates</p>
             {coordinateDisplay}
           </div>
-          <label>Image Url</label>
-          <input type="text" name="image" onChange={handleInputChange}/>
+          <label>Location Image:</label>
+          <div className="list-page-dropzone">
+            <Dropzone onDrop={handleImageUpload}>
+              {({getRootProps, getInputProps}) => (
+                <section>
+                  <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <p>Drag your image or click here to upload!</p>
+                  </div>
+                </section>
+              )}
+            </Dropzone>
+            {previewComponent}
+          </div>
           <label>Description:</label>
           <input type="text" name="description" onChange={handleInputChange}/>
           <label>Difficulty:</label>
