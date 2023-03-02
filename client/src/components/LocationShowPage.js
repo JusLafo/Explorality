@@ -25,8 +25,26 @@ const LocationShowPage = ({ user, match }) => {
     }
   }
 
+  const boston = { lat: 42.361, lng: -71.057 };
+
+  const initMap = () => {
+    const map = new google.maps.Map(document.getElementById("map"), {
+      center: boston,
+      zoom: 11,
+    });
+
+    new google.maps.Marker({
+      position: new google.maps.LatLng(boston),
+      map: map,
+    });
+  }
+
   useEffect(() => {
     getLocation()
+  }, [])
+
+  useEffect(() => {
+    initMap()
   }, [])
 
   return (
@@ -43,9 +61,7 @@ const LocationShowPage = ({ user, match }) => {
         <h5 className="show-page-description">About the location: {location.description}</h5>
         <h5 className="show-page-difficulty">Difficulty: {location.difficulty}</h5>
       </div>
-      <div>
-        {/* <CommentList comments={location.comments} user={user} /> */}
-      </div>
+      <div id="map" style={{height:400}}></div>
     </div>
   )
 }
