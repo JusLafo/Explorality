@@ -31,7 +31,7 @@ const SignOutButton = () => {
   }
 
   return (
-    <button type="button" className="button gradient-hover-effect" onClick={signOut}>
+    <button type="button" className="button gradient-hover-effect sign-out-button" onClick={signOut}>
       Sign Out
     </button>
   );

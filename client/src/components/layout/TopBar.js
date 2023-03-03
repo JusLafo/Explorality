@@ -15,12 +15,12 @@ const TopBar = ({ user }) => {
   ];
 
   const authenticatedListItems = [
-    <li key="user-profile">
-      <Link to={`/users/${user?.id}`}>
+    <li key="user-profile to-my-profile-button">
+      <Link to={`/users/${user?.id}`} className="to-my-profile-button gradient-hover-effect">
         to my profile
       </Link>
     </li>,
-    <li key="sign-out">
+    <li key="sign-out top-bar-home-button">
       <SignOutButton />
     </li>,
   ];
@@ -33,7 +33,7 @@ const TopBar = ({ user }) => {
           </li>
       </div>
       <div className="top-bar-right">
-        <ul className="menu">{user ? authenticatedListItems : unauthenticatedListItems}</ul>
+        <li className="menu">{user ? authenticatedListItems : unauthenticatedListItems}</li>
       </div>
     </div>
   );
