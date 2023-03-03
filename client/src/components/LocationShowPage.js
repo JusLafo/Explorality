@@ -61,7 +61,7 @@ const LocationShowPage = ({ user, match }) => {
         <h5 className="show-page-description">About the location: {location.description}</h5>
         <h5 className="show-page-difficulty">Difficulty: {location.difficulty}</h5>
       </div>
-      <div id="map" style={{height:400}}></div>
+      <div id="map" className="location-map" style={{height:400}}></div>
     </div>
   )
 }

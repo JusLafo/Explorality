@@ -22,7 +22,20 @@
 
 .menu {
   border-radius: 10px;
+}
+
+.sign-out-button {
+  border-top-right-radius: 26px;
+  border-bottom-right-radius: 26px;
+}
+
+.to-my-profile-button {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: #0763B8;
+  background-position: right center;
   background-image: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 51%, #a1c4fd 100%);
+  border-bottom-left-radius: 26px;
+  border-top-left-radius: 26px;
 }
 
 .home-page {
@@ -40,7 +53,7 @@
   background-clip: text;
   color: #2075C4;
   font-weight: bold;
-  margin-left: 360px;
+  margin-left: 10%;
   margin-bottom: 20px;
 }
 
@@ -50,7 +63,7 @@
   color: #0763B8;
   font-weight: bold;
   margin-top: 150px;
-  margin-left: 360px;
+  margin-left: 10%;
 }
 
 h1 {
@@ -75,7 +88,7 @@ h5 {
   padding: 10px 24px;
   color: black;
   font-weight: bold;
-  margin-left: 360px;
+  margin-left: 10%;
   border: none;
   border-radius: 36px;
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
@@ -107,7 +120,7 @@ h5 {
   font-weight: bold;
   border: none;
   border-radius: 26px;
-  margin-left: 40px;
+  margin-left: 3%;
   width: 65px;
   height: 35px;
 }
@@ -155,16 +168,17 @@ h4 {
   display: grid;
   grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
-  text-align: center;
+  grid-gap: 5px;
   max-width: 75%;
   margin: auto;
 }
 
 .grid-tile {
-  background-color: #1277A0;
-  padding: 10px;
+  background-color: #0fa1db;
+  padding: 5px;
   border-radius: 26px;
+  // max-width: 50%;
+  text-align: center;
 }
 
 .collapsible .content {
@@ -407,4 +421,9 @@ div.inline {
   background-color: transparent;
   color: black;
   margin-top: 10px;
+}
+
+.location-map {
+  align-content: inherit;
+  max-width: 80%;
 }
